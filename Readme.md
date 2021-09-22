@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Olga Chernikova](https://up.htmlacademy.ru/javascript/24/user/1085591).
-* Наставник: `Неизвестно`.
+* Наставник: [Павел Позняк](https://up.htmlacademy.ru/javascript/24/user/907403).
 
 ---
 
