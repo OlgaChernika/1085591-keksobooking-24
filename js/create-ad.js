@@ -1,4 +1,4 @@
-import {TITLES, TYPES, TIME, FEATURES, DESCRIPTIONS, PHOTOS, DECIMALS, ADS_LIST_LENGTH} from './data.js';
+import {TITLES, TYPES, TIME, FEATURES, DESCRIPTIONS, PHOTOS, DECIMALS} from './data.js';
 import {getRandomInt, createRandomArray} from './utils.js';
 import {pathArray} from './avatar-path.js';
 
@@ -9,15 +9,18 @@ const createNewAd = (i) => {
     lng: getRandomInt(139.70000, 139.80000, DECIMALS),
   };
 
+  const arrayOfTypesKeys = Array.from(Object.keys(TYPES));
+  const randomKeyOfTypes = arrayOfTypesKeys[getRandomInt(0, arrayOfTypesKeys.length - 1)];
+
   return {
     author: {
       avatar: pathArray[i],
     },
     offer: {
-      title: TITLES[getRandomInt(0, TITLES.length - 1)],
+      title: TITLES[randomKeyOfTypes],
       address: `${location.lat}, ${location.lng}`,
       price: getRandomInt(0, 1000000),
-      type: TYPES[getRandomInt(0, TYPES.length - 1)],
+      type: TYPES[randomKeyOfTypes],
       rooms: getRandomInt(1, 10),
       guests: getRandomInt(1, 10),
       checkin: checkTime,
@@ -30,9 +33,9 @@ const createNewAd = (i) => {
   };
 };
 
-const getAdsArray = () => {
+const getAdsArray = (arrayLength) => {
   const adsList = [];
-  for(let index = 0; index < ADS_LIST_LENGTH; index++) {
+  for(let index = 0; index < arrayLength; index++) {
     adsList.push(createNewAd(index));
   }
   return adsList;

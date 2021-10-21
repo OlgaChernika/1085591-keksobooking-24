@@ -40,4 +40,24 @@ const createRandomArray = (array) => {
   return Array.from(new Set(randomArray));
 };
 
-export {getRandomInt, shuffle, getRandomElement, createRandomArray};
+const createTextContent = (container, text) => {
+  if (text) {
+    container.textContent = text;
+  }
+
+  container.remove();
+};
+
+const getElementChild = (container, selector) => {
+  container.querySelector(selector);
+};
+
+
+export {
+  getRandomInt,
+  shuffle,
+  getRandomElement,
+  createRandomArray,
+  createTextContent,
+  getElementChild
+};
