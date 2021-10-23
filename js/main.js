@@ -1,8 +1,7 @@
-import {getAdsArray} from './create-ad.js';
-//import {ADS_LIST_LENGTH} from './data.js';
+import {getAdsArray, ADS_LIST_LENGTH} from './create-ad.js';
 import{createCard} from './ad-card.js';
 
-const adsArray = getAdsArray(2);
+const adsArray = getAdsArray(ADS_LIST_LENGTH);
 
 const getAds = (array) => {
   const fragment = document.createDocumentFragment();
@@ -16,5 +15,5 @@ const getAds = (array) => {
 
 const mapCanvas = document.querySelector('#map-canvas');
 
-mapCanvas.appendChild(getAds(adsArray));
+mapCanvas.appendChild(getAds(adsArray).childNodes[0]);
 //console.log(getAds(adsArray));
