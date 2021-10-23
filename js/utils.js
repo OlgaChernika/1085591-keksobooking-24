@@ -40,4 +40,9 @@ const createRandomArray = (array) => {
   return Array.from(new Set(randomArray));
 };
 
-export {getRandomInt, shuffle, getRandomElement, createRandomArray};
+export {
+  getRandomInt,
+  shuffle,
+  getRandomElement,
+  createRandomArray
+};
