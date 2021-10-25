@@ -33,7 +33,7 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const ADS_LIST_LENGTH = 10;
+export const ADS_LIST_LENGTH = 10;
 
 const DECIMALS = 5;
 
@@ -81,12 +81,10 @@ const createNewAd = (i) => {
   };
 };
 
-const getAdsArray = (arrayLength) => {
+export const getAdsArray = (arrayLength) => {
   const adsList = [];
   for(let index = 0; index < arrayLength; index++) {
     adsList.push(createNewAd(index));
   }
   return adsList;
 };
-
-export {getAdsArray, ADS_LIST_LENGTH};
