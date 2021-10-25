@@ -1,5 +1,6 @@
 import {getAdsArray, ADS_LIST_LENGTH} from './create-ad.js';
 import{createCard} from './ad-card.js';
+import{deactivateForms, activateForms} from './form.js';
 
 const adsArray = getAdsArray(ADS_LIST_LENGTH);
 
@@ -16,4 +17,6 @@ const getAds = (array) => {
 const mapCanvas = document.querySelector('#map-canvas');
 
 mapCanvas.appendChild(getAds(adsArray).childNodes[0]);
-//console.log(getAds(adsArray));
+
+deactivateForms();
+activateForms();
