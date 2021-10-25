@@ -115,7 +115,7 @@ const renderCheckTime = (parent, cssClass, checkInData, checkOutData) => {
   parent.querySelector(cssClass).remove();
 };
 
-const createCard = ({author, offer}) => {
+export const createCard = ({author, offer}) => {
 
   const cardTemplate = document.querySelector('#card').content;
   const card = cardTemplate.querySelector('.popup');
@@ -134,5 +134,3 @@ const createCard = ({author, offer}) => {
 
   return newCard;
 };
-
-export {createCard};
