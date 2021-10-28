@@ -1,4 +1,5 @@
-import {getRandomInt, createRandomArray, shuffle} from './utils.js';
+import {getRandomInt, shuffle} from './utils.js';
+import {createCard} from './render-advertisement.js';
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
@@ -33,11 +34,13 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-export const ADS_LIST_LENGTH = 10;
+const ADS_LIST_LENGTH = 10;
 
 const DECIMALS = 5;
 
 const PATH = 'img/avatars/user';
+
+const mapCanvas = document.querySelector('#map-canvas');
 
 const createAvatarPathArray = () => {
   const array = [];
@@ -51,6 +54,27 @@ const createAvatarPathArray = () => {
 };
 
 const pathArray = createAvatarPathArray();
+
+const getRandomElement = (array) => {
+  const elementIndex = getRandomInt(0, array.length - 1);
+  const randomElement = array[elementIndex];
+
+  array.slice(elementIndex, 1);
+  return randomElement;
+};
+
+const createRandomArray = (array) => {
+  const randomArray = [];
+  const copiedArray = array.slice();
+  const arrayLength = getRandomInt(1, array.length);
+
+  for (let i = 0; i < arrayLength; i++) {
+    const arrayElement = getRandomElement(copiedArray);
+    randomArray.push(arrayElement);
+  }
+
+  return Array.from(new Set(randomArray));
+};
 
 
 const createNewAd = (i) => {
@@ -81,10 +105,24 @@ const createNewAd = (i) => {
   };
 };
 
-export const getAdsArray = (arrayLength) => {
+const getAdsArray = (arrayLength) => {
   const adsList = [];
   for(let index = 0; index < arrayLength; index++) {
     adsList.push(createNewAd(index));
   }
   return adsList;
 };
+
+const adsArray = getAdsArray(ADS_LIST_LENGTH);
+
+const getAds = (array) => {
+  const fragment = document.createDocumentFragment();
+  array.forEach((ad) => {
+    const card = createCard(ad);
+    fragment.appendChild(card);
+  });
+
+  return fragment;
+};
+
+mapCanvas.appendChild(getAds(adsArray).childNodes[0]);

@@ -1,3 +1,5 @@
+import {adForm} from './form-validation.js';
+
 const formElements = document.querySelectorAll('form');
 
 const setFormElementsDisableState = (form) => {
@@ -25,3 +27,6 @@ export const activateForms = (form) => {
   setFormElementsEnableState(form);
   form.classList.remove('disabled');
 };
+
+deactivateForms();
+activateForms(adForm);
