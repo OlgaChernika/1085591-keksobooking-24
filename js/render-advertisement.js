@@ -104,3 +104,14 @@ export const createCard = ({author, offer}) => {
 
   return newCard;
 };
+
+export const getAds = (array) => {
+  const fragment = document.createDocumentFragment();
+  array.forEach((ad) => {
+    const card = createCard(ad);
+    fragment.appendChild(card);
+  });
+
+  return fragment;
+};
+

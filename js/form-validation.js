@@ -42,18 +42,5 @@ const onPriceChange = () => {
   priceSelect.placeholder = TYPE_MIN_PRICE[typeSelect.value];
 };
 
-// timeInSelect.addEventListener('change', (evt) => {
-//   timeOutSelect.value = evt.target.value;
-// });
-
-// timeOutSelect.addEventListener('change', (evt) => {
-//   timeInSelect.value = evt.target.value;
-// });
-
-// roomSelect.addEventListener('change', (evt) => {
-//   const selectedValue = evt.target.value === '100' ? '0' : evt.target.value;
-//
-// });
-
 titleInput.addEventListener('input', onTitleInput);
 typeSelect.addEventListener('change', onPriceChange);

@@ -1,5 +1,4 @@
 import {getRandomInt, shuffle} from './utils.js';
-import {createCard} from './render-advertisement.js';
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
@@ -34,13 +33,11 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
-const ADS_LIST_LENGTH = 10;
+export const ADS_LIST_LENGTH = 10;
 
 const DECIMALS = 5;
 
 const PATH = 'img/avatars/user';
-
-const mapCanvas = document.querySelector('#map-canvas');
 
 const createAvatarPathArray = () => {
   const array = [];
@@ -105,24 +102,10 @@ const createNewAd = (i) => {
   };
 };
 
-const getAdsArray = (arrayLength) => {
+export const getAdsArray = (arrayLength) => {
   const adsList = [];
   for(let index = 0; index < arrayLength; index++) {
     adsList.push(createNewAd(index));
   }
   return adsList;
 };
-
-const adsArray = getAdsArray(ADS_LIST_LENGTH);
-
-const getAds = (array) => {
-  const fragment = document.createDocumentFragment();
-  array.forEach((ad) => {
-    const card = createCard(ad);
-    fragment.appendChild(card);
-  });
-
-  return fragment;
-};
-
-mapCanvas.appendChild(getAds(adsArray).childNodes[0]);

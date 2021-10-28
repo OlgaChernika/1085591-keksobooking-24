@@ -1,11 +1,11 @@
-const getRandomInt = (min, max, length = 0) => {
+export const getRandomInt = (min, max, length = 0) => {
   if (min >= max || min < 0 || max <= 0) {
     return false;
   }
   return (Math.random() * (max - min) + min).toFixed(length);
 };
 
-const shuffle = (array) => {
+export const shuffle = (array) => {
   let currentIndex = array.length,  randomIndex;
 
   while (currentIndex !== 0) {
@@ -59,9 +59,4 @@ export const inclineWord = (num, type) => {
   }
 
   return `${n} ${wordEndings[type].fourthState}`;
-};
-
-export {
-  getRandomInt,
-  shuffle
 };
