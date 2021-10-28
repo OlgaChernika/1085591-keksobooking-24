@@ -1,7 +1,4 @@
-import {wordEndings, inclineWord} from './utils.js';
-
-wordEndings['guestsEndings'];
-//wordEndings['roomsEndings'];
+import {inclineWord} from './utils.js';
 
 const TYPES = {
   'palace': 'Дворец',

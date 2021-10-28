@@ -1,4 +1,4 @@
-import {wordEndings, inclineWord} from './utils.js';
+import {inclineWord} from './utils.js';
 
 const TYPE_MIN_PRICE = {
   bungalow: 0,
@@ -11,16 +11,15 @@ const TYPE_MIN_PRICE = {
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
-wordEndings['symbolsEndings'];
+const titleInput = document.querySelector('#title');
+//const timeInSelect = document.querySelector('#timein');
+//const timeOutSelect = document.querySelector('#timeout');
+const typeSelect = document.querySelector('#type');
+const priceSelect = document.querySelector('#price');
+const roomSelect = document.querySelector('#room_number');
+const capacitySelect = document.querySelector('#capacity');
 
-export const adForm = document.querySelector('.ad-form');
-const titleInput = adForm.querySelector('#title');
-//const timeInSelect = adForm.querySelector('#timein');
-//const timeOutSelect = adForm.querySelector('#timeout');
-const typeSelect = adForm.querySelector('#type');
-const priceSelect = adForm.querySelector('#price');
-//const roomSelect = adForm.querySelector('#room_number');
-//const capacitySelect = adForm.querySelector('#capacity');
+capacitySelect.value = roomSelect.value;
 
 const onTitleInput = () => {
   const valueLength = titleInput.value.length;
@@ -42,5 +41,22 @@ const onPriceChange = () => {
   priceSelect.placeholder = TYPE_MIN_PRICE[typeSelect.value];
 };
 
-titleInput.addEventListener('input', onTitleInput);
-typeSelect.addEventListener('change', onPriceChange);
+const onCapacityChange = (evt) => {
+  const selectedValue = (evt.target.value === '100') ? '0' : evt.target.value;
+  for (let i = 0; i < capacitySelect.length; i++) {
+    capacitySelect[i].disabled = true;
+    if (capacitySelect[i].value === selectedValue) {
+      capacitySelect[i].disabled = false;
+    }
+    if (capacitySelect[i].value <= selectedValue && capacitySelect[i].value > 0) {
+      capacitySelect[i].disabled = false;
+    }
+  }
+};
+
+export const initFormValidation = () =>{
+  titleInput.addEventListener('input', onTitleInput);
+  typeSelect.addEventListener('change', onPriceChange);
+  roomSelect.addEventListener('change', onCapacityChange);
+};
+
