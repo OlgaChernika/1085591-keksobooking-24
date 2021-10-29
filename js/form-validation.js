@@ -8,6 +8,13 @@ const TYPE_MIN_PRICE = {
   palace: 10000,
 };
 
+const capacityRoomsValues = {
+  '1': '1',
+  '2': '2',
+  '3': '3',
+  '100': '0',
+};
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
@@ -18,6 +25,7 @@ const typeSelect = document.querySelector('#type');
 const priceSelect = document.querySelector('#price');
 const roomSelect = document.querySelector('#room_number');
 const capacitySelect = document.querySelector('#capacity');
+const capacityOptions = document.querySelectorAll('#capacity option');
 
 capacitySelect.value = roomSelect.value;
 
@@ -41,20 +49,25 @@ const onPriceChange = () => {
   priceSelect.placeholder = TYPE_MIN_PRICE[typeSelect.value];
 };
 
-const onCapacityChange = (evt) => {
-  const selectedValue = (evt.target.value === '100') ? '0' : evt.target.value;
-  for (let i = 0; i < capacitySelect.length; i++) {
-    capacitySelect[i].disabled = true;
-    if (capacitySelect[i].value === selectedValue) {
-      capacitySelect[i].disabled = false;
+const setCapacityState = () => {
+  const selectedValue = (roomSelect.value === '100') ? '0' : roomSelect.value;
+  capacityOptions.forEach((option) => {
+    option.disabled = true;
+    if (option.value === selectedValue) {
+      option.disabled = false;
     }
-    if (capacitySelect[i].value <= selectedValue && capacitySelect[i].value > 0) {
-      capacitySelect[i].disabled = false;
+    if (option.value <= selectedValue && option.value > 0) {
+      option.disabled = false;
     }
-  }
+  });
+
+  capacitySelect.value = capacityRoomsValues[roomSelect.value];
 };
 
+const onCapacityChange = () => setCapacityState();
+
 export const initFormValidation = () =>{
+  setCapacityState();
   titleInput.addEventListener('input', onTitleInput);
   typeSelect.addEventListener('change', onPriceChange);
   roomSelect.addEventListener('change', onCapacityChange);
