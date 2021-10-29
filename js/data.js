@@ -1,4 +1,4 @@
-import {getRandomInt, createRandomArray, shuffle} from './utils.js';
+import {getRandomInt, shuffle} from './utils.js';
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
@@ -51,6 +51,27 @@ const createAvatarPathArray = () => {
 };
 
 const pathArray = createAvatarPathArray();
+
+const getRandomElement = (array) => {
+  const elementIndex = getRandomInt(0, array.length - 1);
+  const randomElement = array[elementIndex];
+
+  array.slice(elementIndex, 1);
+  return randomElement;
+};
+
+const createRandomArray = (array) => {
+  const randomArray = [];
+  const copiedArray = array.slice();
+  const arrayLength = getRandomInt(1, array.length);
+
+  for (let i = 0; i < arrayLength; i++) {
+    const arrayElement = getRandomElement(copiedArray);
+    randomArray.push(arrayElement);
+  }
+
+  return Array.from(new Set(randomArray));
+};
 
 
 const createNewAd = (i) => {

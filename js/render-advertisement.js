@@ -1,3 +1,5 @@
+import {inclineWord} from './utils.js';
+
 const TYPES = {
   'palace': 'Дворец',
   'flat': 'Квартира',
@@ -57,41 +59,6 @@ const renderPhotos = (parent, cssClass, data) => {
   parent.querySelector(cssClass).remove();
 };
 
-const wordEndings = {
-  'roomsEndings': {
-    firstState: 'комнат',
-    secondState: 'комната',
-    thirdState: 'комнаты',
-    fourthState: 'комнат',
-  },
-
-  'guestsEndings': {
-    firstState: 'гостей',
-    secondState: 'гостя',
-    thirdState: 'гостей',
-    fourthState: 'гостей',
-  },
-};
-
-const inclineWord = (num, type) => {
-  const n = num ? num.toString() : '1';
-  const last = n.slice(-1);
-  const twoLast = n.slice(-2);
-  if (twoLast === '11' || twoLast === '12' || twoLast === '13' || twoLast === '14') {
-    return `${n} ${wordEndings[type].firstState}`;
-  }
-
-  if (last === '1') {
-    return `${n} ${wordEndings[type].secondState}`;
-  }
-
-  if (last === '2' || last === '3' || last === '4') {
-    return `${n} ${wordEndings[type].thirdState}`;
-  }
-
-  return `${n} ${wordEndings[type].fourthState}`;
-};
-
 const renderCapacity = (parent, cssClass, roomsData, guestsData) => {
   if (roomsData || guestsData) {
     const roomsContent = roomsData ? `${inclineWord(roomsData, 'roomsEndings')} ` : '';
@@ -134,3 +101,14 @@ export const createCard = ({author, offer}) => {
 
   return newCard;
 };
+
+export const getAds = (array) => {
+  const fragment = document.createDocumentFragment();
+  array.forEach((ad) => {
+    const card = createCard(ad);
+    fragment.appendChild(card);
+  });
+
+  return fragment;
+};
+

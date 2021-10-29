@@ -1,11 +1,11 @@
-const getRandomInt = (min, max, length = 0) => {
+export const getRandomInt = (min, max, length = 0) => {
   if (min >= max || min < 0 || max <= 0) {
     return false;
   }
   return (Math.random() * (max - min) + min).toFixed(length);
 };
 
-const shuffle = (array) => {
+export const shuffle = (array) => {
   let currentIndex = array.length,  randomIndex;
 
   while (currentIndex !== 0) {
@@ -19,30 +19,44 @@ const shuffle = (array) => {
   return array;
 };
 
-const getRandomElement = (array) => {
-  const elementIndex = getRandomInt(0, array.length - 1);
-  const randomElement = array[elementIndex];
+export const wordEndings = {
+  'roomsEndings': {
+    firstState: 'комнат',
+    secondState: 'комната',
+    thirdState: 'комнаты',
+    fourthState: 'комнат',
+  },
 
-  array.slice(elementIndex, 1);
-  return randomElement;
+  'guestsEndings': {
+    firstState: 'гостей',
+    secondState: 'гостя',
+    thirdState: 'гостей',
+    fourthState: 'гостей',
+  },
+
+  'symbolsEndings': {
+    firstState: 'символов',
+    secondState: 'символ',
+    thirdState: 'символа',
+    fourthState: 'символов',
+  },
 };
 
-const createRandomArray = (array) => {
-  const randomArray = [];
-  const copiedArray = array.slice();
-  const arrayLength = getRandomInt(1, array.length);
-
-  for (let i = 0; i < arrayLength; i++) {
-    const arrayElement = getRandomElement(copiedArray);
-    randomArray.push(arrayElement);
+export const inclineWord = (num, type) => {
+  const n = num ? num.toString() : '1';
+  const last = n.slice(-1);
+  const twoLast = n.slice(-2);
+  if (twoLast === '11' || twoLast === '12' || twoLast === '13' || twoLast === '14') {
+    return `${n} ${wordEndings[type].firstState}`;
   }
 
-  return Array.from(new Set(randomArray));
-};
+  if (last === '1') {
+    return `${n} ${wordEndings[type].secondState}`;
+  }
 
-export {
-  getRandomInt,
-  shuffle,
-  getRandomElement,
-  createRandomArray
+  if (last === '2' || last === '3' || last === '4') {
+    return `${n} ${wordEndings[type].thirdState}`;
+  }
+
+  return `${n} ${wordEndings[type].fourthState}`;
 };
