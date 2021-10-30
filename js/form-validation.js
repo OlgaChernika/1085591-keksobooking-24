@@ -19,15 +19,13 @@ const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
 const titleInput = document.querySelector('#title');
-//const timeInSelect = document.querySelector('#timein');
-//const timeOutSelect = document.querySelector('#timeout');
+const timeInSelect = document.querySelector('#timein');
+const timeOutSelect = document.querySelector('#timeout');
 const typeSelect = document.querySelector('#type');
 const priceSelect = document.querySelector('#price');
 const roomSelect = document.querySelector('#room_number');
 const capacitySelect = document.querySelector('#capacity');
 const capacityOptions = document.querySelectorAll('#capacity option');
-
-capacitySelect.value = roomSelect.value;
 
 const onTitleInput = () => {
   const valueLength = titleInput.value.length;
@@ -64,12 +62,23 @@ const setCapacityState = () => {
   capacitySelect.value = capacityRoomsValues[roomSelect.value];
 };
 
+const onTimeOutChange = (evt) => {
+  timeOutSelect.value = evt.target.value;
+};
+
+const onTimeInChange = (evt) => {
+  timeInSelect.value = evt.target.value;
+};
+
 const onCapacityChange = () => setCapacityState();
 
-export const initFormValidation = () =>{
+export const initFormValidation = () => {
   setCapacityState();
+  timeInSelect.value = timeOutSelect.value;
   titleInput.addEventListener('input', onTitleInput);
   typeSelect.addEventListener('change', onPriceChange);
   roomSelect.addEventListener('change', onCapacityChange);
+  timeInSelect.addEventListener('change', onTimeOutChange);
+  timeOutSelect.addEventListener('change', onTimeInChange);
 };
 
