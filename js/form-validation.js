@@ -62,12 +62,12 @@ const setCapacityState = () => {
   capacitySelect.value = capacityRoomsValues[roomSelect.value];
 };
 
-const onTimeOutChange = (evt) => {
-  timeOutSelect.value = evt.target.value;
+const onTimeOutChange = ({target}) => {
+  timeOutSelect.value = target.value;
 };
 
-const onTimeInChange = (evt) => {
-  timeInSelect.value = evt.target.value;
+const onTimeInChange = ({target}) => {
+  timeInSelect.value = target.value;
 };
 
 const onCapacityChange = () => setCapacityState();
