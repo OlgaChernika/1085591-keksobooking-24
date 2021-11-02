@@ -35,7 +35,7 @@ const PHOTOS = [
 
 export const ADS_LIST_LENGTH = 10;
 
-const DECIMALS = 5;
+export const DECIMALS = 5;
 
 const PATH = 'img/avatars/user';
 
