@@ -1,9 +1,12 @@
-import {deactivateForms} from './form-states.js';
+import {deactivateForms, activateForms} from './form-states.js';
 import {initFormValidation} from './form-validation.js';
-import {map, onMapLoad} from './map.js';
+import {initMap} from './map.js';
+
+
+const filterForm = document.querySelector('.map__filters');
 
 deactivateForms();
-map.on('load', onMapLoad);
-
+activateForms(filterForm);
+initMap();
 initFormValidation();
 
