@@ -1,20 +1,25 @@
 import {activateForms} from './form-states.js';
-import {getAdsArray, ADS_LIST_LENGTH, DECIMALS} from './data.js';
 import {createCard} from './render-advertisements.js';
+import {getData} from './api.js';
+import {renderGetErrorMessage, renderPostErrorMessage} from './error-messages.js';
+import { addPhotoInputsListeners } from './preload-images.js';
+import { initFormValidation, setAdFormSubmit } from './form-validation.js';
+import { renderSuccessMessage } from './success-message.js';
 
-const START_LOCATION = {
+export const START_LOCATION = {
   lat: 35.68172,
   lng: 139.75392,
 };
 
-const adForm = document.querySelector('.ad-form');
+const DECIMALS = 5;
+
+export const adForm = document.querySelector('.ad-form');
 const addressInput = document.querySelector('#address');
-const interactiveMap = L.map('map-canvas');
-const offersArray = getAdsArray(ADS_LIST_LENGTH);
+export const interactiveMap = L.map('map-canvas');
 const markersGroup = L.layerGroup();
+export let interactiveMarker;
 
-
-const addMarkersGroup = () => {
+export const addMarkersGroup = (data) => {
   markersGroup.addTo(interactiveMap);
 
   const createPopupMarker = (offer) => {
@@ -33,8 +38,19 @@ const addMarkersGroup = () => {
 
     return marker;
   };
+  data.map((offer) => createPopupMarker(offer));
+};
 
-  offersArray.map((offer) => createPopupMarker(offer));
+export const setStartAddressValue = () => {
+  addressInput.value = `${START_LOCATION.lat}, ${START_LOCATION.lng}`;
+};
+
+const activateAdForm = () => {
+  activateForms(adForm);
+  setStartAddressValue();
+  addPhotoInputsListeners();
+  initFormValidation();
+  setAdFormSubmit(renderSuccessMessage, renderPostErrorMessage);
 };
 
 const setLocation = (target) => {
@@ -46,8 +62,8 @@ const onMarkerMove = (evt) => setLocation(evt.target);
 
 export const initMap = () => {
   interactiveMap.on('load', () => {
-    activateForms(adForm);
-    addMarkersGroup();
+    getData(addMarkersGroup, renderGetErrorMessage);
+    activateAdForm();
   }).setView(START_LOCATION, 12);
 
   L.tileLayer(
@@ -57,7 +73,7 @@ export const initMap = () => {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(interactiveMap);
 
-  const interactiveMarker = L.marker(START_LOCATION,
+  interactiveMarker = L.marker(START_LOCATION,
     {
       draggable: true,
       icon: L.icon({
@@ -67,8 +83,10 @@ export const initMap = () => {
       }),
     }).addTo(interactiveMap);
 
-  addressInput.value = `${START_LOCATION.lat}, ${START_LOCATION.lng}`;
-
   interactiveMarker.on('moveend', onMarkerMove);
 };
 
+export const resetMap = () => {
+  interactiveMarker.setLatLng(START_LOCATION);
+  interactiveMap.setView(START_LOCATION);
+};

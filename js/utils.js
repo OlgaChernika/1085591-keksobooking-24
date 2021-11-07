@@ -60,3 +60,9 @@ export const inclineWord = (num, type) => {
 
   return `${n} ${wordEndings[type].fourthState}`;
 };
+
+export const renderElement = (container, element) => {
+  container.insertAdjacentHTML('beforeend', element);
+};
+
+export const isEcsEvt = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
