@@ -1,4 +1,7 @@
 import {inclineWord} from './utils.js';
+import {adForm, resetMap, setStartAddressValue} from './map.js';
+import {postData} from './api.js';
+import {clearImageBlocks} from './preload-images.js';
 
 const TYPE_MIN_PRICE = {
   bungalow: 0,
@@ -26,6 +29,7 @@ const priceSelect = document.querySelector('#price');
 const roomSelect = document.querySelector('#room_number');
 const capacitySelect = document.querySelector('#capacity');
 const capacityOptions = document.querySelectorAll('#capacity option');
+const resetFormButton = document.querySelector('.ad-form__reset');
 
 const onTitleInput = () => {
   const valueLength = titleInput.value.length;
@@ -82,3 +86,21 @@ export const initFormValidation = () => {
   timeOutSelect.addEventListener('change', onTimeInChange);
 };
 
+export const setAdFormSubmit = (onSuccess, onError) => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(adForm);
+
+    postData(onSuccess, onError, formData);
+  });
+};
+
+resetFormButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
+  setStartAddressValue();
+  clearImageBlocks();
+  initFormValidation();
+});
