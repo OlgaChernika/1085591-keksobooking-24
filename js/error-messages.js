@@ -1,4 +1,4 @@
-import { isEcsEvt, renderElement } from './utils.js';
+import {isEcsEvt, renderElement} from './utils.js';
 
 const getDataErrorText = 'Ошибка при загрузке данных';
 const postDataErrorText = 'Ошибка размещения объявления';
@@ -17,7 +17,7 @@ const onErrorClick = (evt) => {
 
 const onErrorKeydown = (evt) => {
   evt.preventDefault();
-  if (isEcsEvt(evt)) {
+  if (isEcsEvt(evt) && document.querySelector('.error')) {
     document.querySelector('.error').remove();
   }
 };

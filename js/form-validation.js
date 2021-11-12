@@ -1,5 +1,5 @@
 import {inclineWord} from './utils.js';
-import {adForm, resetMap, setStartAddressValue} from './map.js';
+import {resetMap, setStartAddressValue} from './map.js';
 import {postData} from './api.js';
 import {clearImageBlocks} from './preload-images.js';
 
@@ -21,6 +21,7 @@ const capacityRoomsValues = {
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
+const adForm = document.querySelector('.ad-form');
 const titleInput = document.querySelector('#title');
 const timeInSelect = document.querySelector('#timein');
 const timeOutSelect = document.querySelector('#timeout');
@@ -86,7 +87,7 @@ export const initFormValidation = () => {
   timeOutSelect.addEventListener('change', onTimeInChange);
 };
 
-export const setAdFormSubmit = (onSuccess, onError) => {
+export const setAdFormActions = (onSuccess, onError) => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -94,13 +95,13 @@ export const setAdFormSubmit = (onSuccess, onError) => {
 
     postData(onSuccess, onError, formData);
   });
-};
 
-resetFormButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  adForm.reset();
-  resetMap();
-  setStartAddressValue();
-  clearImageBlocks();
-  initFormValidation();
-});
+  resetFormButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    adForm.reset();
+    resetMap();
+    setStartAddressValue();
+    clearImageBlocks();
+    initFormValidation();
+  });
+};

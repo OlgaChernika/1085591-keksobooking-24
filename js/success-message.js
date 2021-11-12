@@ -1,4 +1,5 @@
-import {adForm, resetMap, setStartAddressValue} from './map.js';
+import {initFormValidation} from './form-validation.js';
+import {resetMap, setStartAddressValue} from './map.js';
 import {clearImageBlocks} from './preload-images.js';
 import {isEcsEvt, renderElement} from './utils.js';
 
@@ -17,7 +18,7 @@ const onSuccessClick = (evt) => {
 
 const onSuccessKeydown = (evt) => {
   evt.preventDefault();
-  if (isEcsEvt(evt)) {
+  if (isEcsEvt(evt) && document.querySelector('.success')) {
     document.querySelector('.success').remove();
   }
 };
@@ -30,8 +31,9 @@ const addListeners = () => {
 export const renderSuccessMessage = () => {
   renderElement(document.body, createSuccessTemplate);
   addListeners();
-  adForm.reset();
+  document.querySelector('.ad-form').reset();
   resetMap();
   setStartAddressValue();
   clearImageBlocks();
+  initFormValidation();
 };

@@ -2,9 +2,10 @@ import {activateForms} from './form-states.js';
 import {createCard} from './render-advertisements.js';
 import {getData} from './api.js';
 import {renderGetErrorMessage, renderPostErrorMessage} from './error-messages.js';
-import { addPhotoInputsListeners } from './preload-images.js';
-import { initFormValidation, setAdFormSubmit } from './form-validation.js';
-import { renderSuccessMessage } from './success-message.js';
+import {addPhotoInputsListeners} from './preload-images.js';
+import {initFormValidation, setAdFormActions} from './form-validation.js';
+import {renderSuccessMessage} from './success-message.js';
+import {filterData, setDataRanking} from './offer-filter.js';
 
 export const START_LOCATION = {
   lat: 35.68172,
@@ -12,33 +13,38 @@ export const START_LOCATION = {
 };
 
 const DECIMALS = 5;
+const OFFERS_AMOUNT = 10;
+const TIME_INTERVAL = 500;
 
-export const adForm = document.querySelector('.ad-form');
+const adForm = document.querySelector('.ad-form');
+const formFilter = document.querySelector('.map__filters');
 const addressInput = document.querySelector('#address');
-export const interactiveMap = L.map('map-canvas');
+const interactiveMap = L.map('map-canvas');
 const markersGroup = L.layerGroup();
-export let interactiveMarker;
+let interactiveMarker;
+let marker;
+let timer;
 
 export const addMarkersGroup = (data) => {
   markersGroup.addTo(interactiveMap);
-
-  const createPopupMarker = (offer) => {
-    const marker = L.marker(
-      offer.location,
-      {icon: L.icon({
-        iconUrl: './img/pin.svg',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-      }),
-      },
-    );
-    marker
-      .addTo(markersGroup)
-      .bindPopup(createCard(offer));
-
-    return marker;
-  };
-  data.map((offer) => createPopupMarker(offer));
+  setDataRanking(data)
+    .slice()
+    .filter(filterData)
+    .slice(0, OFFERS_AMOUNT)
+    .forEach((offer) => {
+      marker = L.marker(
+        offer.location,
+        {icon: L.icon({
+          iconUrl: './img/pin.svg',
+          iconSize: [40, 40],
+          iconAnchor: [20, 40],
+        }),
+        },
+      );
+      marker
+        .addTo(markersGroup)
+        .bindPopup(createCard(offer));
+    });
 };
 
 export const setStartAddressValue = () => {
@@ -50,7 +56,7 @@ const activateAdForm = () => {
   setStartAddressValue();
   addPhotoInputsListeners();
   initFormValidation();
-  setAdFormSubmit(renderSuccessMessage, renderPostErrorMessage);
+  setAdFormActions(renderSuccessMessage, renderPostErrorMessage);
 };
 
 const setLocation = (target) => {
@@ -60,9 +66,32 @@ const setLocation = (target) => {
 
 const onMarkerMove = (evt) => setLocation(evt.target);
 
+
+export const resetMap = () => {
+  interactiveMarker.setLatLng(START_LOCATION);
+  interactiveMap.setView(START_LOCATION);
+  markersGroup.clearLayers();
+};
+
+const setMapChange = (data) => {
+  formFilter.addEventListener('change', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      resetMap();
+      addMarkersGroup(data);
+    }, TIME_INTERVAL);
+  });
+};
+
+const getDataCallback = (data) => {
+  addMarkersGroup(data);
+  activateForms(document.querySelector('.map__filters'));
+  setMapChange(data);
+};
+
 export const initMap = () => {
   interactiveMap.on('load', () => {
-    getData(addMarkersGroup, renderGetErrorMessage);
+    getData(getDataCallback, renderGetErrorMessage);
     activateAdForm();
   }).setView(START_LOCATION, 12);
 
@@ -84,9 +113,4 @@ export const initMap = () => {
     }).addTo(interactiveMap);
 
   interactiveMarker.on('moveend', onMarkerMove);
-};
-
-export const resetMap = () => {
-  interactiveMarker.setLatLng(START_LOCATION);
-  interactiveMap.setView(START_LOCATION);
 };
