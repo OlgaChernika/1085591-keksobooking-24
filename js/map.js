@@ -69,14 +69,14 @@ const onMarkerMove = (evt) => setLocation(evt.target);
 
 export const resetMap = () => {
   interactiveMarker.setLatLng(START_LOCATION);
-  interactiveMap.setView(START_LOCATION);
-  markersGroup.clearLayers();
+  interactiveMap.setView(START_LOCATION, 12);
 };
 
 const setMapChange = (data) => {
   formFilter.addEventListener('change', () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
+      markersGroup.clearLayers();
       resetMap();
       addMarkersGroup(data);
     }, TIME_INTERVAL);
