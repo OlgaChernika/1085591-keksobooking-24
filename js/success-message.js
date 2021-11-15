@@ -9,17 +9,21 @@ const createSuccessTemplate = () => { `<div class="success">
 
 };
 
+const removeSuccess = () => {
+  document.querySelector('.success').remove();
+};
+
 const onSuccessClick = (evt) => {
   evt.preventDefault();
   if (evt.target.closest('.success')) {
-    document.querySelector('.success').remove();
+    removeSuccess();
   }
 };
 
 const onSuccessKeydown = (evt) => {
   evt.preventDefault();
   if (isEcsEvt(evt) && document.querySelector('.success')) {
-    document.querySelector('.success').remove();
+    removeSuccess();
   }
 };
 

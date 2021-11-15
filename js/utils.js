@@ -1,11 +1,4 @@
-export const getRandomInt = (min, max, length = 0) => {
-  if (min >= max || min < 0 || max <= 0) {
-    return false;
-  }
-  return (Math.random() * (max - min) + min).toFixed(length);
-};
-
-export const wordEndings = {
+export const typeToEndings = {
   'roomsEndings': {
     firstState: 'комнат',
     secondState: 'комната',
@@ -33,18 +26,18 @@ export const inclineWord = (num, type) => {
   const last = n.slice(-1);
   const twoLast = n.slice(-2);
   if (twoLast === '11' || twoLast === '12' || twoLast === '13' || twoLast === '14') {
-    return `${n} ${wordEndings[type].firstState}`;
+    return `${n} ${typeToEndings[type].firstState}`;
   }
 
   if (last === '1') {
-    return `${n} ${wordEndings[type].secondState}`;
+    return `${n} ${typeToEndings[type].secondState}`;
   }
 
   if (last === '2' || last === '3' || last === '4') {
-    return `${n} ${wordEndings[type].thirdState}`;
+    return `${n} ${typeToEndings[type].thirdState}`;
   }
 
-  return `${n} ${wordEndings[type].fourthState}`;
+  return `${n} ${typeToEndings[type].fourthState}`;
 };
 
 export const renderElement = (container, element) => {

@@ -1,6 +1,6 @@
 import {inclineWord} from './utils.js';
 
-const TYPES = {
+const typeToTranslation = {
   'palace': 'Дворец',
   'flat': 'Квартира',
   'house': 'Дом',
@@ -20,7 +20,11 @@ const renderSimpleText = (parent, cssClass, data) => {
 
 const renderPriceText = (parent, cssClass, data) => {
   if (data) {
-    parent.querySelector(cssClass).innerHTML = `${data} <span>₽/ночь</span>`;
+    const element = parent.querySelector(cssClass);
+    const span = document.createElement('span');
+    element.textContent = data;
+    span.textContent = ' ₽/ночь';
+    element.appendChild(span);
     return;
   }
 
@@ -90,7 +94,7 @@ export const createCard = ({author, offer}) => {
 
   renderSimpleText(newCard, '.popup__title', offer.title);
   renderSimpleText(newCard, '.popup__text--address', offer.address);
-  renderSimpleText(newCard, '.popup__type', TYPES[offer.type]);
+  renderSimpleText(newCard, '.popup__type', typeToTranslation[offer.type]);
   renderSimpleText(newCard, '.popup__description', offer.description);
   renderPriceText(newCard, '.popup__text--price', offer.price);
   renderAvatarLink(newCard, '.popup__avatar', author.avatar);

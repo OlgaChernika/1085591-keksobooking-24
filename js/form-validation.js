@@ -3,7 +3,10 @@ import {resetMap, setStartAddressValue} from './map.js';
 import {postData} from './api.js';
 import {clearImageBlocks} from './preload-images.js';
 
-const TYPE_MIN_PRICE = {
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+
+const typeToPrice = {
   bungalow: 0,
   flat: 1000,
   hotel: 3000,
@@ -11,15 +14,12 @@ const TYPE_MIN_PRICE = {
   palace: 10000,
 };
 
-const capacityRoomsValues = {
+const roomsToOptions = {
   '1': '1',
   '2': '2',
   '3': '3',
   '100': '0',
 };
-
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
 
 const adForm = document.querySelector('.ad-form');
 const titleInput = document.querySelector('#title');
@@ -30,7 +30,7 @@ const priceSelect = document.querySelector('#price');
 const roomSelect = document.querySelector('#room_number');
 const capacitySelect = document.querySelector('#capacity');
 const capacityOptions = document.querySelectorAll('#capacity option');
-const resetFormButton = document.querySelector('.ad-form__reset');
+const mapFilter = document.querySelector('.map__filters');
 
 const onTitleInput = () => {
   const valueLength = titleInput.value.length;
@@ -47,10 +47,12 @@ const onTitleInput = () => {
   titleInput.reportValidity();
 };
 
-const onPriceChange = () => {
-  priceSelect.min = TYPE_MIN_PRICE[typeSelect.value];
-  priceSelect.placeholder = TYPE_MIN_PRICE[typeSelect.value];
+const setPriceState = () => {
+  priceSelect.min = typeToPrice[typeSelect.value];
+  priceSelect.placeholder = typeToPrice[typeSelect.value];
 };
+
+const onPriceChange = () => setPriceState();
 
 const setCapacityState = () => {
   const selectedValue = (roomSelect.value === '100') ? '0' : roomSelect.value;
@@ -64,7 +66,7 @@ const setCapacityState = () => {
     }
   });
 
-  capacitySelect.value = capacityRoomsValues[roomSelect.value];
+  capacitySelect.value = roomsToOptions[roomSelect.value];
 };
 
 const onTimeOutChange = ({target}) => {
@@ -77,8 +79,15 @@ const onTimeInChange = ({target}) => {
 
 const onCapacityChange = () => setCapacityState();
 
+export const resetFilter = () => {
+  mapFilter.reset();
+  const event = new Event('change');
+  mapFilter.dispatchEvent(event);
+};
+
 export const initFormValidation = () => {
   setCapacityState();
+  setPriceState();
   timeInSelect.value = timeOutSelect.value;
   titleInput.addEventListener('input', onTitleInput);
   typeSelect.addEventListener('change', onPriceChange);
@@ -88,6 +97,8 @@ export const initFormValidation = () => {
 };
 
 export const setAdFormActions = (onSuccess, onError) => {
+  initFormValidation();
+
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
@@ -96,12 +107,14 @@ export const setAdFormActions = (onSuccess, onError) => {
     postData(onSuccess, onError, formData);
   });
 
-  resetFormButton.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    adForm.reset();
+  adForm.addEventListener('reset', () => {
     resetMap();
-    setStartAddressValue();
     clearImageBlocks();
-    initFormValidation();
+    resetFilter();
+    setTimeout(() => {
+      setStartAddressValue();
+      setCapacityState();
+      setPriceState();
+    });
   });
 };

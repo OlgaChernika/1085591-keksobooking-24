@@ -1,6 +1,6 @@
-const PRICE_RANGE = {
-  low: 10000,
-  middle: 50000,
+const PriceTypes = {
+  'LOW': 10000,
+  'HIGH': 50000,
 };
 
 const typeFilterSelect = document.querySelector('#housing-type');
@@ -17,13 +17,13 @@ const filterByGuests = ({guests}) => +guestsFilterSelect.value === guests || gue
 const filterByPrice = ({price}) => {
   switch (priceFilterSelect.value) {
     case 'low':
-      return price <= PRICE_RANGE.low;
+      return price <= PriceTypes['LOW'];
 
     case 'middle':
-      return price > PRICE_RANGE.low && price <= PRICE_RANGE.middle;
+      return price > PriceTypes['LOW'] && price <= PriceTypes['HIGH'];
 
     case 'high':
-      return price > PRICE_RANGE.middle;
+      return price > PriceTypes['HIGH'];
 
     default:
       return true;
